@@ -21,11 +21,11 @@ class ChildTableViewCell: UITableViewCell {
     
     @IBAction func minusChilds(_ sender: UIButton) {
         if var numberOfChilds = Int(childsNumberLabel.text!){
-            if numberOfChilds > 1{
+            if numberOfChilds > 0{
                 numberOfChilds -= 1
                 
             }else{
-                numberOfChilds = 1
+                numberOfChilds = 0
             }
             childsNumberLabel.text = "\(numberOfChilds)"
             childsNumber = numberOfChilds

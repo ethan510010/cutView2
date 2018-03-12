@@ -17,15 +17,25 @@ protocol numberOfAdultsDelegate {
     func getAdultsCount(adults:Int)
 }
 
+protocol numberOfChildsDelegate {
+    func getChildsCount(childs:Int)
+}
+
 class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAdultsCountDelegate, changeChildsCountDelegate {
     
     
+    var numberOfRows:Int?
+    
     func minusChilds(numberOfChilds: Int) {
-        <#code#>
+        childsCount = numberOfChilds
+        print(childsCount)
+        tableView.reloadData()
     }
     
     func plusChilds(numberOfChilds: Int) {
-        <#code#>
+        childsCount = numberOfChilds
+        print(childsCount)
+        tableView.reloadData()
     }
     
     
@@ -52,10 +62,12 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     //
     var roomsCount:Int?
     var adultsCount:Int?
+    var childsCount:Int?
     
     //
     var roomDelegate:numberOfRoomsDelegate?
     var adultDelegate:numberOfAdultsDelegate?
+    var childsDelegate:numberOfChildsDelegate?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -69,12 +81,16 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
         print("\(roomDelegate)")
         roomDelegate?.getRoomsCount(rooms: roomsCount!)
         adultDelegate?.getAdultsCount(adults: adultsCount!)
+        childsDelegate?.getChildsCount(childs: childsCount!)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        childsCount = 0
+        
+        tableView.separatorStyle = .none
         // Do any additional setup after loading the view.
     }
     
@@ -97,10 +113,19 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        if childsCount != 0{
+            tableView.isScrollEnabled = true
+            numberOfRows = 4 + childsCount!
+            return 4 + childsCount!
+        }else{
+            tableView.isScrollEnabled = false
+            numberOfRows = 4
+            return 4
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         switch indexPath.row {
         case 0:
             let roomCell =  tableView.dequeueReusableCell(withIdentifier: "roomCell", for: indexPath) as! RoomNumberTableViewCell
@@ -109,17 +134,40 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
             return roomCell
         case 1:
             let adultCell = tableView.dequeueReusableCell(withIdentifier: "adultCell", for: indexPath) as! AdultNumberTableViewCell
-            adultCell.adultsNumberLabel.text = "\(adultsCount!)"
-            adultCell.delegate = self
-            return adultCell
+                adultCell.adultsNumberLabel.text = "\(adultsCount!)"
+                adultCell.delegate = self
+                return adultCell
         case 2:
             let childCell = tableView.dequeueReusableCell(withIdentifier: "childCell", for: indexPath) as! ChildTableViewCell
+            childCell.delegate = self
+            childCell.childsNumberLabel.text = "\(childsCount!)"
             return childCell
+        case 3:
+            if childsCount == 0{
+                let descriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell", for: indexPath) as! DescriptionTableViewCell
+                descriptionCell.withChildLabel.text = "有帶小孩同行嗎？"
+                descriptionCell.ensureEnterChildInfo.text = "確實填寫小孩人數與年齡，我們就能幫你找出最划算的的房價和房型喔!"
+                descriptionCell.childAgeLabel.text = ""
+                descriptionCell.enterChildAge.text = ""
+                return descriptionCell
+            }else {
+                let anotherKindOfDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell", for: indexPath) as! DescriptionTableViewCell
+                anotherKindOfDescriptionCell.withChildLabel.text = ""
+                anotherKindOfDescriptionCell.ensureEnterChildInfo.text = ""
+                anotherKindOfDescriptionCell.childAgeLabel.text = "兒童年齡"
+                anotherKindOfDescriptionCell.enterChildAge.text = "請輸入每位兒童的年齡以便尋找最適合的房型和床型組合。"
+                return anotherKindOfDescriptionCell
+            }
         default:
-            let cell = UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "childDetailCell", for: indexPath) as! ChildDetailTableViewCell
+            cell.childNOLabel.text = "兒童\(indexPath.row - 3)"
             return cell
         }
-       
-        
+    
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+    
 }

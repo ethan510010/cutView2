@@ -8,7 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, numberOfRoomsDelegate, numberOfAdultsDelegate {
+class ViewController: UIViewController, numberOfRoomsDelegate, numberOfAdultsDelegate, numberOfChildsDelegate {
+    
+    func getChildsCount(childs: Int) {
+        print("getsChildsCount")
+        numberOfChilds = childs
+        mainTableView.reloadData()
+    }
+    
     func getAdultsCount(adults: Int) {
         print("getAdultsCount")
         numberOfAdults = adults
@@ -26,6 +33,7 @@ class ViewController: UIViewController, numberOfRoomsDelegate, numberOfAdultsDel
 
     var numberOfRooms:Int?
     var numberOfAdults:Int?
+    var numberOfChilds:Int?
     
     @IBOutlet weak var mainTableView: UITableView!
     
@@ -36,6 +44,7 @@ class ViewController: UIViewController, numberOfRoomsDelegate, numberOfAdultsDel
         
         numberOfRooms = 1
         numberOfAdults = 1
+        numberOfChilds = 0
         // Do any additional setup after loading the view, typically from a nib
         
 //        peopleVC = PeopleViewController(nibName: "PeopleViewController", bundle: nil)
@@ -73,6 +82,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
             }
             if let numberOfAdults = numberOfAdults{
                 peopleCell.numberOfAdult.text = "\(numberOfAdults)"
+            }
+            if let numberOfChilds = numberOfChilds{
+                peopleCell.numberOfChild.text = "\(numberOfChilds)"
             }
             return peopleCell
         case 3:
@@ -113,8 +125,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
                 if let peopleVC = NC.viewControllers.first as? PeopleViewController {
                     peopleVC.roomDelegate = self
                     peopleVC.adultDelegate = self
+                    peopleVC.childsDelegate = self
                     peopleVC.roomsCount = numberOfRooms
                     peopleVC.adultsCount = numberOfAdults
+                    peopleVC.childsCount = numberOfChilds
                     print("yes!!!!")
                 }
                 
