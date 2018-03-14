@@ -26,14 +26,26 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     
     var numberOfRows:Int?
     
+    //實作一個方法來生成childArray
+    func howManyChilds(childsCount:Int){
+        children.childArray = [Child]()
+        for i in 0..<childsCount {
+            children.childArray.append(Child(childName: "兒童\(i+1)", childAge: "12歲"))
+        }
+    }
+    
     func minusChilds(numberOfChilds: Int) {
         childsCount = numberOfChilds
+        //呼叫上述建造childArray的方法，去生成該array
+        howManyChilds(childsCount: childsCount!)
         print(childsCount)
         tableView.reloadData()
     }
     
     func plusChilds(numberOfChilds: Int) {
         childsCount = numberOfChilds
+        //呼叫上述建造childArray的方法，去生成該array
+        howManyChilds(childsCount: childsCount!)
         print(childsCount)
         tableView.reloadData()
     }
@@ -64,8 +76,9 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     var adultsCount:Int?
     var childsCount:Int?
     
-    //
-    var ageForEachChild = "12歲"
+    //實體化children Model
+    var children = Children()
+    
     
     //
     var roomDelegate:numberOfRoomsDelegate?
@@ -82,7 +95,7 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     
     @IBAction func ensureNumber(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
-        print("\(roomDelegate)")
+//        print("\(roomDelegate)")
         roomDelegate?.getRoomsCount(rooms: roomsCount!)
         adultDelegate?.getAdultsCount(adults: adultsCount!)
         childsDelegate?.getChildsCount(childs: childsCount!)
@@ -94,15 +107,19 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
 //        tableView.separatorStyle = .none
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("\(self.roomDelegate)")
+
+//        print("\(self.roomDelegate)")
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        howManyChilds(childsCount: childsCount!)
+        print("appear: \(childsCount!)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -122,6 +139,7 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
         if childsCount != 0{
             tableView.isScrollEnabled = true
             numberOfRows = 4 + childsCount!
+            print("numberOfRows: \(numberOfRows!)")
             return 4 + childsCount!
         }else{
             tableView.isScrollEnabled = false
@@ -166,8 +184,12 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
             }
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "childDetailCell", for: indexPath) as! ChildDetailTableViewCell
-            cell.childNOLabel.text = "兒童\(indexPath.row - 3)"
-            cell.childAgeLabel.text = ageForEachChild
+            print("index:\(indexPath.row - 4)")
+            print(children.childArray)
+            cell.childNOLabel.text = children.childArray[indexPath.row - 4].childName
+            
+            cell.childAgeLabel.text = children.childArray[indexPath.row - 4].childAge
+            
             return cell
         }
     
@@ -178,7 +200,14 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
             //當點擊到row >= 4的列時，就跳出另外一個ViewController
             let slightBlackVC = storyboard?.instantiateViewController(withIdentifier: "slightBlackViewController") as! SlightBlackViewController
             slightBlackVC.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+            
+            //把peopleViewController的值傳到SlightBlackViewController的whichChildBeSelected
+            slightBlackVC.whichChildBeSelected = children.childArray[indexPath.row - 4].childName
+            
+            //為了讓SlightBlackViewController要能夠從後面傳過來要設delegate
+            slightBlackVC.index = indexPath
             slightBlackVC.delegate = self
+            
             self.present(slightBlackVC, animated: true, completion: nil)
         }
         
@@ -187,11 +216,16 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
 }
 
 extension PeopleViewController: ChildAgeSelectionDelegate{
-    func whichAgeDidSelected(age: String) {
-        self.ageForEachChild = age
-        print(ageForEachChild)
+    
+    func whichAgeDidSelected(index: IndexPath, age: String) {
+        //howManyChilds(childsCount: childsCount!)
         self.tableView.reloadData()
+        print(age)
+        children.childArray[index.row - 4].childAge = age
+        print(children.childArray[index.row - 4].childName)
+        print("didselected:\(children.childArray[index.row-4].childAge)")
+        
     }
-    
-    
+
 }
+

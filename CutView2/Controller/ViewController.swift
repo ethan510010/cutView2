@@ -141,6 +141,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
         }
     }
     
+//    var peopleVC = PeopleViewController()
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "showPeople"{

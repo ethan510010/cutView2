@@ -26,7 +26,7 @@ class SetConditionViewController: UIViewController {
     var stars = StarArray()
     var starDidTap = ""
     @IBOutlet weak var starCollectionView: UICollectionView!
-//    var starDidChosen = [false,false,false,false,false]
+
     
  
     //接收前面的畫面傳過來的值

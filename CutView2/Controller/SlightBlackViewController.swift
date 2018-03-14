@@ -8,12 +8,19 @@
 
 import UIKit
 
+
+//要把選到的age傳到PeopleViewController要設delegate
 protocol ChildAgeSelectionDelegate {
-    func whichAgeDidSelected(age:String)
+    func whichAgeDidSelected(index: IndexPath,age:String)
 }
 
 class SlightBlackViewController: UIViewController {
     
+    //用來跟前面tableView的indexPath同步
+    var index:IndexPath?
+    
+    //用來接收PeopleViewController傳過來的值（前面的畫面到後面的畫面）
+    var whichChildBeSelected:String?
     
     var delegate:ChildAgeSelectionDelegate?
     
@@ -27,7 +34,10 @@ class SlightBlackViewController: UIViewController {
     
     @IBAction func ensureButton(_ sender: UIButton) {
         print(ageForChild[agePicker.selectedRow(inComponent: 0)])
-        delegate?.whichAgeDidSelected(age: ageForChild[agePicker.selectedRow(inComponent: 0)])
+        if let index = index {
+           delegate?.whichAgeDidSelected(index: index, age: ageForChild[agePicker.selectedRow(inComponent: 0)])
+        }
+//        delegate?.whichAgeDidSelected(age: ageForChild[agePicker.selectedRow(inComponent: 0)])
         dismiss(animated: true, completion: nil)
     }
     
@@ -36,14 +46,20 @@ class SlightBlackViewController: UIViewController {
         super.viewDidLoad()
         whiteView.backgroundColor = .white
         
-        //
+        //設定agePicker的delegate跟dataSource
         agePicker.delegate = self
         agePicker.dataSource = self
-        
         
         //為了顯示半黑透明
         self.modalPresentationStyle = .custom
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //childAgeLabel要顯示哪一個小孩，接收來自PeopleViewController的值
+        print(whichChildBeSelected)
+        childAgeLabel.text = whichChildBeSelected
     }
 
     override func didReceiveMemoryWarning() {
