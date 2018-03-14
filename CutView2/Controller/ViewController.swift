@@ -31,9 +31,19 @@ class ViewController: UIViewController, numberOfRoomsDelegate, numberOfAdultsDel
         mainTableView.reloadData()
     }
 
+    //為了peopleTableViewCell而設的
     var numberOfRooms:Int?
     var numberOfAdults:Int?
     var numberOfChilds:Int?
+    
+    //為了RatingTableViewCell而設的
+    var ratingValue:Float?
+    
+    var starValue:String?
+    //在cellForRowAt的地方把它存起來，要與後面的starsDidTapped同步才有意義，不應在這邊在新實體化
+    var starArray:StarArray?
+    
+    
     
     @IBOutlet weak var mainTableView: UITableView!
     
@@ -90,6 +100,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
         case 3:
             let ratingCell = tableView.dequeueReusableCell(withIdentifier: "rateCell", for: indexPath) as! RatingTableViewCell
             ratingCell.selectionStyle = .none
+            
+            if let ratingValue = ratingValue{
+                if ratingValue > 0{
+                    if ratingValue != 10{
+                        ratingCell.ratingLabel.text = "\(starValue!)/評鑑：\(ratingValue)+"
+                    }else{
+                        ratingCell.ratingLabel.text = "\(starValue!)/評鑑：\(ratingValue)"
+                    }
+                }else if ratingValue == 0{
+                    ratingCell.ratingLabel.text = "\(starValue!)/自訂"
+                }
+            }
             return ratingCell
         case 4:
             let buttonCell = tableView.dequeueReusableCell(withIdentifier: "button", for: indexPath) as! ButtonTableViewCell
@@ -114,6 +136,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2{
             performSegue(withIdentifier: "showPeople", sender: nil)
+        }else if indexPath.row == 3{
+            performSegue(withIdentifier: "showBudget", sender: nil)
         }
     }
     
@@ -133,8 +157,36 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
                 }
                 
             }
+        }else if segue.identifier == "showBudget"{
+            if let secondNC = segue.destination as? UINavigationController{
+                if let setConditionVC = secondNC.viewControllers.first as? SetConditionViewController{
+                    //這邊可以讓後面的畫面傳值回來
+                    setConditionVC.ratingDelegate = self
+                    setConditionVC.starDelegate = self
+//                    self.starArray = setConditionVC.stars
+                    //這邊是讓前面的畫面可以傳到後面的畫面
+                    setConditionVC.ratingValue = ratingValue
+                }
+            }
         }
     }
+    
 }
 
+extension ViewController: RatingSliderDidScrolledDelegate, StarDidChosenDelegate{
+    func starDidChosen(starDisChosen: String) {
+        starValue = starDisChosen
+    }
+    
+    
+   
+ 
+    func ratingSliderDidScrolled(sliderValue: Float) {
+        print("get rating")
+        ratingValue = sliderValue
+        print(ratingValue)
+        mainTableView.reloadData()
+    }
 
+    
+}

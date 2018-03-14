@@ -10,9 +10,11 @@ import UIKit
 
 class RatingTableViewCell: UITableViewCell {
     
-    
 
     @IBOutlet weak var whiteView: UIView!
+    
+    @IBOutlet weak var ratingLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 

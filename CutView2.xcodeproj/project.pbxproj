@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		D607FBC020567F6E00CACB89 /* DescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D607FBBF20567F6E00CACB89 /* DescriptionTableViewCell.swift */; };
 		D607FBC220567F9400CACB89 /* ChildDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D607FBC120567F9400CACB89 /* ChildDetailTableViewCell.swift */; };
+		D61BEEF720580CAF00E0CC0B /* SlightBlackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61BEEF620580CAF00E0CC0B /* SlightBlackViewController.swift */; };
+		D65DAB9F20575F44006E7487 /* SetConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DAB9E20575F44006E7487 /* SetConditionViewController.swift */; };
+		D65DABA220577FAC006E7487 /* StarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DABA120577FAC006E7487 /* StarCollectionViewCell.swift */; };
+		D65DABA520579319006E7487 /* StarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DABA420579319006E7487 /* StarArray.swift */; };
 		D6BBF3D92054CEBE008A7E66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BBF3D82054CEBE008A7E66 /* AppDelegate.swift */; };
 		D6BBF3DB2054CEBE008A7E66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BBF3DA2054CEBE008A7E66 /* ViewController.swift */; };
 		D6BBF3DE2054CEBE008A7E66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6BBF3DC2054CEBE008A7E66 /* Main.storyboard */; };
@@ -28,6 +32,10 @@
 /* Begin PBXFileReference section */
 		D607FBBF20567F6E00CACB89 /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		D607FBC120567F9400CACB89 /* ChildDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildDetailTableViewCell.swift; sourceTree = "<group>"; };
+		D61BEEF620580CAF00E0CC0B /* SlightBlackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlightBlackViewController.swift; sourceTree = "<group>"; };
+		D65DAB9E20575F44006E7487 /* SetConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetConditionViewController.swift; sourceTree = "<group>"; };
+		D65DABA120577FAC006E7487 /* StarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarCollectionViewCell.swift; sourceTree = "<group>"; };
+		D65DABA420579319006E7487 /* StarArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarArray.swift; sourceTree = "<group>"; };
 		D6BBF3D52054CEBE008A7E66 /* CutView2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CutView2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6BBF3D82054CEBE008A7E66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6BBF3DA2054CEBE008A7E66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +65,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D65DABA020577F89006E7487 /* StarCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D65DABA120577FAC006E7487 /* StarCollectionViewCell.swift */,
+				D65DABA320579304006E7487 /* Model */,
+			);
+			path = StarCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		D65DABA320579304006E7487 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D65DABA420579319006E7487 /* StarArray.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D6BBF3CC2054CEBE008A7E66 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +117,7 @@
 			children = (
 				D6BBF3F820550624008A7E66 /* MainTableViewCell */,
 				D6BBF3FF20550663008A7E66 /* PeopleTableViewCells */,
+				D65DABA020577F89006E7487 /* StarCollectionViewCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -101,6 +127,8 @@
 			children = (
 				D6BBF3DA2054CEBE008A7E66 /* ViewController.swift */,
 				D6BBF3F620550418008A7E66 /* PeopleViewController.swift */,
+				D65DAB9E20575F44006E7487 /* SetConditionViewController.swift */,
+				D61BEEF620580CAF00E0CC0B /* SlightBlackViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -201,16 +229,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D65DAB9F20575F44006E7487 /* SetConditionViewController.swift in Sources */,
 				D6BBF3F02054D076008A7E66 /* PeopleTableViewCell.swift in Sources */,
 				D6BBF3F720550418008A7E66 /* PeopleViewController.swift in Sources */,
+				D65DABA520579319006E7487 /* StarArray.swift in Sources */,
 				D6BBF3FA2055063F008A7E66 /* RoomNumberTableViewCell.swift in Sources */,
 				D6BBF3EB2054D055008A7E66 /* SearchTableViewCell.swift in Sources */,
 				D607FBC020567F6E00CACB89 /* DescriptionTableViewCell.swift in Sources */,
+				D61BEEF720580CAF00E0CC0B /* SlightBlackViewController.swift in Sources */,
 				D6BBF3FE2055065E008A7E66 /* ChildTableViewCell.swift in Sources */,
 				D6BBF3F22054D084008A7E66 /* RatingTableViewCell.swift in Sources */,
 				D6BBF3FC20550652008A7E66 /* AdultNumberTableViewCell.swift in Sources */,
 				D6BBF3DB2054CEBE008A7E66 /* ViewController.swift in Sources */,
 				D6BBF3D92054CEBE008A7E66 /* AppDelegate.swift in Sources */,
+				D65DABA220577FAC006E7487 /* StarCollectionViewCell.swift in Sources */,
 				D607FBC220567F9400CACB89 /* ChildDetailTableViewCell.swift in Sources */,
 				D6BBF3F42054D090008A7E66 /* ButtonTableViewCell.swift in Sources */,
 				D6BBF3EE2054D069008A7E66 /* DateTableViewCell.swift in Sources */,

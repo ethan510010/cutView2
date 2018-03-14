@@ -1,4 +1,4 @@
-//
+ //
 //  ChildDetailTableViewCell.swift
 //  CutView2
 //
@@ -11,7 +11,8 @@ import UIKit
 class ChildDetailTableViewCell: UITableViewCell {
     
     @IBOutlet weak var childNOLabel: UILabel!
-    @IBOutlet weak var childAgeLabel: UIButton!
+    @IBOutlet weak var childAgeLabel: UILabel!
+    
     
     
 

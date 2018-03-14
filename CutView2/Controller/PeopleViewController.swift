@@ -65,9 +65,13 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     var childsCount:Int?
     
     //
+    var ageForEachChild = "12歲"
+    
+    //
     var roomDelegate:numberOfRoomsDelegate?
     var adultDelegate:numberOfAdultsDelegate?
     var childsDelegate:numberOfChildsDelegate?
+    
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -85,12 +89,14 @@ class PeopleViewController: UIViewController, changeRoomsCountDelegate, changeAd
     }
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        childsCount = 0
         
-        tableView.separatorStyle = .none
+        
+//        tableView.separatorStyle = .none
         // Do any additional setup after loading the view.
     }
     
@@ -161,13 +167,31 @@ extension PeopleViewController:UITableViewDelegate, UITableViewDataSource{
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "childDetailCell", for: indexPath) as! ChildDetailTableViewCell
             cell.childNOLabel.text = "兒童\(indexPath.row - 3)"
+            cell.childAgeLabel.text = ageForEachChild
             return cell
         }
     
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        if indexPath.row >= 4{
+            //當點擊到row >= 4的列時，就跳出另外一個ViewController
+            let slightBlackVC = storyboard?.instantiateViewController(withIdentifier: "slightBlackViewController") as! SlightBlackViewController
+            slightBlackVC.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+            slightBlackVC.delegate = self
+            self.present(slightBlackVC, animated: true, completion: nil)
+        }
+        
     }
+    
+}
+
+extension PeopleViewController: ChildAgeSelectionDelegate{
+    func whichAgeDidSelected(age: String) {
+        self.ageForEachChild = age
+        print(ageForEachChild)
+        self.tableView.reloadData()
+    }
+    
     
 }
